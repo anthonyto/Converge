@@ -1,3 +1,4 @@
+var dbstr = "mongodb://MongoLab-b:aFlSNajm_fMQrxnOFoN6J7ZT6seBKDbbQc9fo1nUOfk-@ds030817.mongolab.com:30817/MongoLab-b"
 
 /**
  * Module dependencies.
@@ -9,6 +10,15 @@ var events = require('./routes/events');
 var http = require('http');
 var path = require('path');
 var appError = require('./appError');
+var mongo = require('mongodb').MongoClient;
+
+mongo.connect(dbstr, function(err, db){
+	if(err){
+		console.log("Could no connect");
+		return;
+	}
+	console.log("success");
+});
 
 var app = express();
 
