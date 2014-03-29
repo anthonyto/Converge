@@ -10,6 +10,11 @@ var http = require('http');
 var path = require('path');
 var appError = require('./appError');
 
+// MongoDB configs
+var mongo = require('mongodb');
+var monk = require('monk');
+var db = monk('localhost:27017/converge');
+
 var app = express();
 
 // all environments
@@ -29,9 +34,11 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+
+// Routing
+app.get('/', routes.index);
 app.get('/api/events/:userid', events.list);
 
-app.get('/', routes.index);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
