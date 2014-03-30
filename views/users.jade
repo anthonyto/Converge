@@ -1,0 +1,12 @@
+extends layout
+
+block content
+	h1. 
+		Users
+	ul
+		each user, i in users
+			li
+				user.name
+				script(type="text/javascript").
+					console.log(user);
+					console.log("hello");
