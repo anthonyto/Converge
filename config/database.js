@@ -1,5 +1,5 @@
 // config/database.js
 module.exports = {
 
-	'url': 'mongodb://<anthony>:<foobar>@oceanic.mongohq.com:10062/converge' 
+	'url': 'mongodb://MongoLab-b:aFlSNajm_fMQrxnOFoN6J7ZT6seBKDbbQc9fo1nUOfk-@ds030817.mongolab.com:30817/MongoLab-b' 
 };

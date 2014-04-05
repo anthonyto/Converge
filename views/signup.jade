@@ -1,10 +1,15 @@
 block content 
-	form(action="/signup", method="post")
-		label email
-		input(type="text", class="form-control" name="email")
-		label password
-		input(type="text", class="form-control" name="password")
-		button(type="submit") login
-		
-	p Already have an account?
-	a(href="/login") Login Here
+
+  script(type="text/javascript"). 
+    if (#{message}.length > 0)
+      console.log(#{message});
+
+  form(action="/signup", method="post")
+    label email
+    input(type="text", class="form-control" name="email")
+    label password
+    input(type="text", class="form-control" name="password")
+    button(type="submit") sign up	
+  
+  p Already have an account?
+  a(href="/login") Login Here

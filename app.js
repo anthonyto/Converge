@@ -45,6 +45,13 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.cookieParser()); // read cookies (needed for auth)
 app.use(express.bodyParser()); // get information from html forms
+
+// Required for passport
+app.use(express.session({ secret: 'foobarbazsomething' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
@@ -52,13 +59,6 @@ app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(appError.notFound); // 404 handler
 app.use(appError.handler);
-
-// required for passport
-app.use(express.session({ secret: 'foobarbazsomething' })); // session secret
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
-
 
 // development only
 if ('development' == app.get('env')) {
