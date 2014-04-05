@@ -12,14 +12,12 @@
 module.exports = function(app, passport) {
 
 	app.get('/', function(req, res) {
-		res.render('index.jade'); 
+		res.render('index.ejs'); 
 	});
 	 
 	// SIGN UP
 	app.get('/signup', function(req, res) {
 		res.render('signup.ejs', { message: req.session.messages = ('signupMessage') });
-		// res.render('signup.ejs', { message: "foo" });
-		// res.render('signup.jade');
 	});
 	
 	app.post('/signup', passport.authenticate('local-signup', {
@@ -30,19 +28,35 @@ module.exports = function(app, passport) {
 	
 	// LOGIN
 	app.get('/login', function(req, res) {
-		res.render('login.jade', { message: req.session.messages = ('signupMessage') }); 
-		// res.render('login.jade');
+		res.render('login.ejs', { message: req.session.messages = ('signupMessage') }); 
 	});
 
-	// app.post('/login', do all our passport stuff here);
-
+	app.post('/login', passport.authenticate('local-login', {
+		successRedirect : '/profile', // redirect to the secure profile section
+		failureRedirect : '/login', // redirect back to the signup page if there is an error
+		failureFlash : true // allow flash messages
+	}));
+	
 	// we will want this protected so you have to be logged in to visit
 	// we will use route middleware to verify this (the isLoggedIn function)
 	app.get('/profile', isLoggedIn, function(req, res) {
-		res.render('profile.jade', {
+		res.render('profile.ejs', {
 			user : req.user // get the user out of session and pass to template
 		});
 	});
+	
+	// =====================================
+		// FACEBOOK ROUTES =====================
+		// =====================================
+		// route for facebook authentication and login
+		app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+
+		// handle the callback after facebook has authenticated the user
+		app.get('/auth/facebook/callback',
+			passport.authenticate('facebook', {
+				successRedirect : '/profile',
+				failureRedirect : '/'
+			}));
 	
 	// LOG OUT
 	app.get('/logout', function(req, res) {
